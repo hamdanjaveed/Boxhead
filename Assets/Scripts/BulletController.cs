@@ -3,12 +3,14 @@ using System.Collections;
 
 public class BulletController : MonoBehaviour {
 
+	public float damage = 20f;
+
 	void Start() {
 		Physics2D.IgnoreLayerCollision (9, 10);
 	}
 
 	void OnCollisionEnter2D(Collision2D collision) {
-		if (collision.gameObject.tag == "Wall") {
+		if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Enemy") {
 			Destroy (gameObject);
 		}
 	}
