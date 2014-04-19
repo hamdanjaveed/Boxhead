@@ -7,7 +7,14 @@ public class PlayerController : MonoBehaviour {
 
 	private float speed = 2500f;
 	private float health = 100f;
-	
+
+	private HealthBar healthBar;
+
+	void Start() {
+		healthBar = GetComponentInChildren<HealthBar>();
+		healthBar.Initialize(health);
+	}
+
 	// Update is called once per frame
 	void Update () {
 		if (health <= 0) {
@@ -89,6 +96,7 @@ public class PlayerController : MonoBehaviour {
 		if (collision.gameObject.tag == "Enemy") {
 			EnemyController enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyController>();
 			health -= enemy.damage;
+			healthBar.setHealth(health);
 		}
 	}
 
