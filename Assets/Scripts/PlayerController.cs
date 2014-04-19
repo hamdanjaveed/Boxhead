@@ -5,8 +5,6 @@ public class PlayerController : MonoBehaviour {
 
 	public Transform bullet;
 
-	private float speed = 2500f;
-
 	public enum PlayerDirectionLR {
 		Left,
 		Right,
@@ -21,6 +19,9 @@ public class PlayerController : MonoBehaviour {
 	};
 	public static PlayerDirectionUD udDir;
 
+	private float speed = 2500f;
+	private float health = 100f;
+
 	// Use this for initialization
 	void Start () {
 		lrDir = PlayerDirectionLR.None;
@@ -29,6 +30,11 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (health <= 0) {
+			Destroy(gameObject);
+			Application.LoadLevel("GameOver");
+		}
+
 		float dx = Input.GetAxisRaw ("Horizontal") * speed * Time.deltaTime;
 		float dy = Input.GetAxisRaw ("Vertical") * speed * Time.deltaTime;
 
@@ -53,6 +59,13 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		rigidbody2D.AddForce (new Vector2 (dx, dy));
+	}
+
+	void OnCollisionEnter2D(Collision2D collision) {
+		if (collision.gameObject.tag == "Enemy") {
+			EnemyController enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyController>();
+			health -= enemy.damage;
+		}
 	}
 
 }

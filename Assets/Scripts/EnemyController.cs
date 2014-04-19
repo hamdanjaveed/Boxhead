@@ -3,8 +3,10 @@ using System.Collections;
 
 public class EnemyController : MonoBehaviour {
 
+	public float damage = 20f;
+
 	private GameObject player;
-	private float speedDamp = 0.1f;
+	private float speedDamp = 0.25f;
 
 	private float health = 100;
 
