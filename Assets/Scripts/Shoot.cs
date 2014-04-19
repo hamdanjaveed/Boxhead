@@ -22,7 +22,7 @@ public class Shoot : MonoBehaviour {
 		if (canShoot && Input.GetKey(KeyCode.Slash)) {
 			Rigidbody2D newBullet = Instantiate(bullet, transform.position, transform.rotation) as Rigidbody2D;
 
-			float x = 0, y = 0;
+			/*float x = 0, y = 0;
 			if (PlayerController.lrDir == PlayerController.PlayerDirectionLR.Left) {
 				x = -1;
 			} else if (PlayerController.lrDir == PlayerController.PlayerDirectionLR.Right) {
@@ -34,8 +34,8 @@ public class Shoot : MonoBehaviour {
 			} else if (PlayerController.udDir == PlayerController.PlayerDirectionUD.Down) {
 				y = -1;
 			}
-
-			newBullet.rigidbody2D.AddForce(new Vector2(shootingForce * x, shootingForce * y));
+*/
+			newBullet.rigidbody2D.AddForce(new Vector2(shootingForce * PlayerController.playerDirection.x, shootingForce * PlayerController.playerDirection.y));
 
 			canShoot = false;
 		}

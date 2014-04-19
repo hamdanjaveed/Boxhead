@@ -3,60 +3,86 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
-	public enum PlayerDirectionLR {
-		Left,
-		Right,
-		None
-	};
-	public static PlayerDirectionLR lrDir;
-
-	public enum PlayerDirectionUD {
-		Up,
-		Down,
-		None
-	};
-	public static PlayerDirectionUD udDir;
+	public static Vector2 playerDirection;
 
 	private float speed = 2500f;
 	private float health = 100f;
-
-	// Use this for initialization
-	void Start () {
-		lrDir = PlayerDirectionLR.None;
-		udDir = PlayerDirectionUD.None;
-	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (health <= 0) {
-			Destroy(gameObject);
-			Application.LoadLevel("GameOver");
+			Destroy (gameObject);
+			Application.LoadLevel ("GameOver");
 		}
 
 		float dx = Input.GetAxisRaw ("Horizontal") * speed * Time.deltaTime;
 		float dy = Input.GetAxisRaw ("Vertical") * speed * Time.deltaTime;
+		rigidbody2D.AddForce (new Vector2 (dx, dy));
+
+		// set the direction according to dx and dy
+		if (dx > 0 && dy > 0) {
+			playerDirection = new Vector2 (1f, 1f);
+		} else if (dx > 0 && dy < 0) {
+			playerDirection = new Vector2 (1f, -1f);
+		} else if (dx < 0 && dy > 0) {
+			playerDirection = new Vector2 (-1f, 1f);
+		} else if (dx < 0 && dy < 0) {
+			playerDirection = new Vector2 (-1f, -1f);
+		} else if (dx == 0 && dy != 0) {
+			if (dy > 0) {
+				playerDirection = new Vector2 (0f, 1f);
+			} else {
+				playerDirection = new Vector2 (0f, -1f);
+			}
+		} else if (dy == 0 && dx != 0) {
+			if (dx > 0) {
+				playerDirection = new Vector2 (1f, 0f);
+			} else {
+				playerDirection = new Vector2 (-1f, 0f);
+			}
+		}
 
 		if (dx > 0) {
-			lrDir = PlayerDirectionLR.Right;
+			playerDirection = new Vector2(1f, 0f);
 		} else if (dx < 0) {
-			lrDir = PlayerDirectionLR.Left;
-		} else {
-			if (udDir != PlayerDirectionUD.None) {
-				lrDir = PlayerDirectionLR.None;
-			}
+			playerDirection = new Vector2(-1f, 0f);
 		}
 
 		if (dy > 0) {
-			udDir = PlayerDirectionUD.Up;
+			playerDirection += new Vector2(0f, 1f);
 		} else if (dy < 0) {
-			udDir = PlayerDirectionUD.Down;
-		} else {
-			if (lrDir != PlayerDirectionLR.None) {
-				udDir = PlayerDirectionUD.None;
-			}
+			playerDirection += new Vector2(0f, -1f);
 		}
 
-		rigidbody2D.AddForce (new Vector2 (dx, dy));
+		float angle = Mathf.Atan (playerDirection.y / playerDirection.x);
+
+		if (Mathf.Abs(angle) < 0.3) {
+			if (playerDirection.x > 0) {
+				playerDirection = new Vector2 (1f, 0f);
+			} else {
+				playerDirection = new Vector2 (-1f, 0f);
+			}
+		} else if (Mathf.Abs(angle) > (Mathf.PI / 2f) - 0.3) {
+			if (playerDirection.y > 0) {
+				playerDirection = new Vector2 (0f, 1f);
+			} else {
+				playerDirection = new Vector2 (0f, -1f);
+			}
+		} else {
+			if (angle > 0) {
+				if (playerDirection.x > 0) {
+					playerDirection = new Vector2(1f, 1f).normalized;
+				} else {
+					playerDirection = new Vector2(-1f, -1f).normalized;
+				}
+			} else {
+				if (playerDirection.x > 0) {
+					playerDirection = new Vector2(1f, -1f).normalized;
+				} else {
+					playerDirection = new Vector2(-1f, 1f).normalized;
+				}
+			}
+		}
 	}
 
 	void OnCollisionEnter2D(Collision2D collision) {
