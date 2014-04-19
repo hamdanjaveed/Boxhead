@@ -3,8 +3,6 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
-	public Transform bullet;
-
 	public enum PlayerDirectionLR {
 		Left,
 		Right,

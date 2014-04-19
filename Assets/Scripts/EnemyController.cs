@@ -6,7 +6,7 @@ public class EnemyController : MonoBehaviour {
 	public float damage = 20f;
 
 	private GameObject player;
-	private float speedDamp = 0.25f;
+	private float speedDamp = 0.6f;
 
 	private float health = 100;
 
@@ -18,7 +18,7 @@ public class EnemyController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		Vector3 playerPosition = player.transform.position;
-		Vector3 direction = playerPosition - transform.position;
+		Vector3 direction = (playerPosition - transform.position).normalized;
 		rigidbody2D.velocity = new Vector2 (direction.x * speedDamp, direction.y * speedDamp);
 
 		if (health <= 0) {

@@ -4,6 +4,7 @@ using System.Collections;
 public class Shoot : MonoBehaviour {
 
 	public Rigidbody2D bullet;
+	public float shootingForce = 75f;
 
 	private const float MAX_TIME = 0.1f;
 	private float currentTime;
@@ -34,7 +35,7 @@ public class Shoot : MonoBehaviour {
 				y = -1;
 			}
 
-			newBullet.rigidbody2D.AddForce(new Vector2(50f * x, 50f * y));
+			newBullet.rigidbody2D.AddForce(new Vector2(shootingForce * x, shootingForce * y));
 
 			canShoot = false;
 		}
