@@ -10,9 +10,13 @@ public class EnemyController : MonoBehaviour {
 
 	private float health = 100;
 
+	private HealthBar healthBar;
+
 	void Start() {
 		player = GameObject.FindGameObjectWithTag ("Player");
 		Physics2D.IgnoreLayerCollision (11, 12);
+		healthBar = GetComponentInChildren<HealthBar>();
+		healthBar.Initialize(health);
 	}
 	
 	// Update is called once per frame
@@ -30,6 +34,7 @@ public class EnemyController : MonoBehaviour {
 		if (collision.gameObject.tag == "Bullet") {
 			BulletController bullet = collision.gameObject.GetComponent<BulletController>();
 			health -= bullet.damage;
+			healthBar.setHealth(health);
 		}
 	}
 }
