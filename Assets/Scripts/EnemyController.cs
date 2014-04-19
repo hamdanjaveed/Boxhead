@@ -4,6 +4,7 @@ using System.Collections;
 public class EnemyController : MonoBehaviour {
 
 	public float damage = 20f;
+	public int scoreForKilling = 10;
 
 	private GameObject player;
 	private float speedDamp = 0.6f;
@@ -27,6 +28,7 @@ public class EnemyController : MonoBehaviour {
 
 		if (health <= 0) {
 			Destroy(gameObject);
+			GameScore.adjustScoreBy(scoreForKilling);
 		}
 	}
 

@@ -5,6 +5,8 @@ public class PlayerController : MonoBehaviour {
 
 	public static Vector2 playerDirection;
 
+	private int scoreForTakingAHit = -10;
+
 	private float speed = 2500f;
 	private float health = 100f;
 
@@ -19,6 +21,7 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		if (health <= 0) {
 			Destroy (gameObject);
+			GameScore.scene = 1;
 			Application.LoadLevel ("GameOver");
 		}
 
@@ -97,6 +100,7 @@ public class PlayerController : MonoBehaviour {
 			EnemyController enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyController>();
 			health -= enemy.damage;
 			healthBar.setHealth(health);
+			GameScore.adjustScoreBy(scoreForTakingAHit);
 		}
 	}
 
