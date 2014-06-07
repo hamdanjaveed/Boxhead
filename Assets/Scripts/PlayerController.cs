@@ -28,10 +28,11 @@ public class PlayerController : MonoBehaviour {
 		float dx = Input.GetAxisRaw ("Horizontal") * speed * Time.deltaTime;
 		float dy = Input.GetAxisRaw ("Vertical") * speed * Time.deltaTime;
 
+		// move the player
 		Vector2 oldPosition = transform.position;
 		transform.position = new Vector2(oldPosition.x + dx, oldPosition.y + dy);
 
-		// set the direction according to dx and dy
+		// set the direction according to dx and dy (wow this really needs to be changed, but it works so k)
 		if (dx > 0 && dy > 0) {
 			playerDirection = new Vector2 (1f, 1f);
 		} else if (dx > 0 && dy < 0) {
