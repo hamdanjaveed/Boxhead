@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour {
 
 	private int scoreForTakingAHit = -10;
 
-	private float speed = 2500f;
+	private float speed = 3f;
 	private float health = 100f;
 
 	private HealthBar healthBar;
@@ -27,7 +27,9 @@ public class PlayerController : MonoBehaviour {
 
 		float dx = Input.GetAxisRaw ("Horizontal") * speed * Time.deltaTime;
 		float dy = Input.GetAxisRaw ("Vertical") * speed * Time.deltaTime;
-		rigidbody2D.AddForce (new Vector2 (dx, dy));
+
+		Vector2 oldPosition = transform.position;
+		transform.position = new Vector2(oldPosition.x + dx, oldPosition.y + dy);
 
 		// set the direction according to dx and dy
 		if (dx > 0 && dy > 0) {
@@ -103,5 +105,6 @@ public class PlayerController : MonoBehaviour {
 			GameScore.adjustScoreBy(scoreForTakingAHit);
 		}
 	}
+
 
 }
